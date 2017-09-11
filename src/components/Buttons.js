@@ -80,6 +80,7 @@ export const AddButton = styled.button`
   padding: 0;
   position: relative;
   cursor: pointer;
+  margin: 1.5em 0 0;
 
   :active {
     outline: none;
@@ -89,21 +90,23 @@ export const AddButton = styled.button`
     display: block;
     position: absolute;
     top: 50%;
+    left: 50%;
     width: 16px;
     height: 3px;
     background-color: ${PRIMARY_DARK};
+    transform: translate(-50%, -50%);
     transition: all 0.25s cubic-bezier(0.39, 0.01, 0.55, 0.97);
 
     &:first-child {
-      transform: rotate(90deg);
+      transform: translate(-50%, -50%) rotate(90deg);
     }
   }
 
   &.close > span {
-    transform: rotate(135deg);
+    transform: translate(-50%, -50%) rotate(135deg);
   }
 
   &.close > span:first-child {
-    transform: rotate(45deg);
+    transform: translate(-50%, -50%) rotate(45deg);
   }
 `;

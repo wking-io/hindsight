@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import Logo from './Logo';
 import { OutlineButton, StyledNavLink } from './Buttons';
-import { ContentWrapper, NavWrapper, NavItems } from './Layout';
+import { Header, ContentWrapper, NavWrapper, NavItems } from './Layout';
 import logout from '../utils/logout';
 
 const AppNav = ({ history }) => (
-  <header>
+  <Header>
     <ContentWrapper>
       <NavWrapper align="center" justify="space-between">
         <Logo theHeight="2.5em" />
@@ -30,7 +30,7 @@ const AppNav = ({ history }) => (
         </NavItems>
       </NavWrapper>
     </ContentWrapper>
-  </header>
+  </Header>
 );
 
 AppNav.propTypes = {

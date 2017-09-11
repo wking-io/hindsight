@@ -5,6 +5,7 @@ import { GC_USER_ID, GC_AUTH_TOKEN } from '../lib/constants';
 import ErrorMessage from './ErrorMessage';
 import AddSomething from './AddSomething';
 import CreateMember from './CreateMember';
+import Card, { CardGroup } from './Card';
 
 class Members extends Component {
   state = {
@@ -21,7 +22,13 @@ class Members extends Component {
       <section>
         <AddSomething createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
         <CreateMember createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
-        <ul>{allMembers.map(member => <li key={member.id}>{member.name}</li>)}</ul>
+        <CardGroup>
+          {allMembers.map(member => (
+            <Card key={member.id}>
+              {member.name}, {member.email}, {member.role}
+            </Card>
+          ))}
+        </CardGroup>
       </section>
     );
   }

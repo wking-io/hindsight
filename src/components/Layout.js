@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 
+export const Header = styled.header`background: white;`;
 export const CenterInScreen = styled.div`
   height: 100vh;
   display: flex;
