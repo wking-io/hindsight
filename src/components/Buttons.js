@@ -70,3 +70,40 @@ export const Anchor = styled.a`
 `;
 
 export const StyledNavLink = Anchor.withComponent(NavLink).extend``;
+
+export const AddButton = styled.button`
+  border: none;
+  outline: none;
+  background: none;
+  height: 16px;
+  width: 16px;
+  padding: 0;
+  position: relative;
+  cursor: pointer;
+
+  :active {
+    outline: none;
+  }
+
+  > span {
+    display: block;
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 3px;
+    background-color: ${PRIMARY_DARK};
+    transition: all 0.25s cubic-bezier(0.39, 0.01, 0.55, 0.97);
+
+    &:first-child {
+      transform: rotate(90deg);
+    }
+  }
+
+  &.close > span {
+    transform: rotate(135deg);
+  }
+
+  &.close > span:first-child {
+    transform: rotate(45deg);
+  }
+`;
