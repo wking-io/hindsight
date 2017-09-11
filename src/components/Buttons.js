@@ -3,27 +3,29 @@ import { NavLink, Link } from 'react-router-dom';
 import { SANS_FONT, PRIMARY_DARK, BLUE_DARK, BLUE_GRADIENT, WHITE } from '../lib/constants';
 
 export const Button = styled.button`
-  color: ${WHITE};
+  color: ${PRIMARY_DARK};
   display: inline-block;
   font-family: ${SANS_FONT};
   font-size: 1em;
   padding: 0.25em 1em;
-  background-color: ${BLUE_DARK};
-  border: 2px solid ${BLUE_DARK};
+  background-image: ${BLUE_GRADIENT('to right')}, ${BLUE_GRADIENT('to right')};
+  background-size: calc(100% - 4px) calc(100% - 4px), 100%;
+  background-repeat: no-repeat;
+  background-position: center, center;
+  border: none;
   cursor: pointer;
 
   &:hover {
-    background-image: ${BLUE_GRADIENT('to right')};
+    background-image: linear-gradient(white, white), ${BLUE_GRADIENT('to right')};
   }
 `;
 
 export const OutlineButton = Button.extend`
   color: ${PRIMARY_DARK};
-  background-color: transparent;
+  background-image: linear-gradient(white, white), ${BLUE_GRADIENT('to right')};
 
   &:hover {
-    background-color: ${BLUE_DARK};
-    background-image: none;
+    background-image: ${BLUE_GRADIENT('to right')}, ${BLUE_GRADIENT('to right')};
   }
 
   &:focus {
@@ -40,10 +42,13 @@ export const LinkOutlineButton = OutlineButton.withComponent(Link).extend`
 `;
 
 export const ButtonGroup = styled.div`
-  > ${Button}, > ${LinkButton} {
+  > ${Button}, > ${LinkButton}, > ${OutlineButton}, ${LinkOutlineButton} {
     margin-left: 1em;
   }
-  > ${Button}:first-child, > ${LinkButton}:first-child {
+  > ${Button}:first-child,
+    > ${LinkButton}:first-child,
+    > ${OutlineButton}:first-child,
+    > ${LinkOutlineButton}:first-child {
     margin-left: 0;
   }
 `;
