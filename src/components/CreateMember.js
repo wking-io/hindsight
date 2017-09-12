@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import storage from 'store';
 import { graphql, gql } from 'react-apollo';
-import { CreateForm, HiddenFormWrapper, StyledInput } from './Forms';
+import { CreateForm, HiddenFormWrapper, InputGroup, StyledLabel, StyledInput } from './Forms';
 import { ALL_MEMBERS } from './Members';
 import { GC_USER_ID } from '../lib/constants';
 
@@ -60,22 +60,31 @@ class CreateMember extends Component {
           }}
         >
           <HiddenFormWrapper>
-            <StyledInput
-              value={this.state.name}
-              onChange={e => this.setState({ name: e.target.value })}
-              type="text"
-            />
-            <StyledInput
-              value={this.state.email}
-              onChange={e => this.setState({ email: e.target.value })}
-              type="text"
-            />
-            <StyledInput
-              value={this.state.role}
-              onChange={e => this.setState({ role: e.target.value })}
-              type="text"
-            />
-            <StyledInput type="submit" value="submit" />
+            <InputGroup>
+              <StyledLabel>Full Name</StyledLabel>
+              <StyledInput
+                value={this.state.name}
+                onChange={e => this.setState({ name: e.target.value })}
+                type="text"
+              />
+            </InputGroup>
+            <InputGroup>
+              <StyledLabel>Full Name</StyledLabel>
+              <StyledInput
+                value={this.state.email}
+                onChange={e => this.setState({ email: e.target.value })}
+                type="text"
+              />
+            </InputGroup>
+            <InputGroup>
+              <StyledLabel>Full Name</StyledLabel>
+              <StyledInput
+                value={this.state.role}
+                onChange={e => this.setState({ role: e.target.value })}
+                type="text"
+              />
+            </InputGroup>
+            <StyledInput type="submit" value="Create Member" />
           </HiddenFormWrapper>
         </div>
       </CreateForm>

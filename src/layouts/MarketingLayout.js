@@ -16,7 +16,7 @@ const MarketingLayout = ({ isUser }) => (
           <Subheading>
             A tool to facilitate your team having open discussions around improving your process.
           </Subheading>
-          <BodyText>
+          <BodyText addSpace>
             Track how your team draws operates and how you identify insights to improve your
             workflow moving forward. Log in below or sign up if you haven’t created an account yet
             and learn how to build a communication process within your team that will open the door
