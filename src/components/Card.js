@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const CardGroup = styled.ul`
   margin: 0;
-  padding: 1.5em 0;
+  padding: 1em 0 1.5em;
 `;
 
 const Card = styled.li`

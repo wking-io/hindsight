@@ -2,20 +2,35 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import storage from 'store';
 import { graphql, gql } from 'react-apollo';
-import { CreateForm, StyledInput } from './Forms';
+import { CreateForm, HiddenFormWrapper, StyledInput } from './Forms';
 import { ALL_MEMBERS } from './Members';
 import { GC_USER_ID } from '../lib/constants';
 
 class CreateMember extends Component {
   constructor(props) {
     super(props);
-    this.state = this.emptyState;
+    this.state = {
+      name: '',
+      email: '',
+      role: '',
+      expandedHeight: '',
+    };
   }
+
+  componentDidMount() {
+    const expandedHeight = this.hiddenWrapper.offsetHeight;
+    this.setExpandedHeight(expandedHeight);
+  }
+
+  setExpandedHeight = (height) => {
+    this.setState(() => ({ expandedHeight: height }));
+  };
 
   emptyState = {
     name: '',
     email: '',
     role: '',
+    expandedHeight: '',
   };
 
   clearForm = () => {
@@ -34,23 +49,35 @@ class CreateMember extends Component {
   render() {
     const { createNew } = this.props;
     return (
-      <CreateForm open={createNew} onSubmit={this.handleSubmit}>
-        <StyledInput
-          value={this.state.name}
-          onChange={e => this.setState({ name: e.target.value })}
-          type="text"
-        />
-        <StyledInput
-          value={this.state.email}
-          onChange={e => this.setState({ email: e.target.value })}
-          type="text"
-        />
-        <StyledInput
-          value={this.state.role}
-          onChange={e => this.setState({ role: e.target.value })}
-          type="text"
-        />
-        <StyledInput type="submit" value="submit" />
+      <CreateForm
+        open={createNew}
+        expandedHeight={this.state.expandedHeight}
+        onSubmit={this.handleSubmit}
+      >
+        <div
+          ref={(hiddenWrapper) => {
+            this.hiddenWrapper = hiddenWrapper;
+          }}
+        >
+          <HiddenFormWrapper>
+            <StyledInput
+              value={this.state.name}
+              onChange={e => this.setState({ name: e.target.value })}
+              type="text"
+            />
+            <StyledInput
+              value={this.state.email}
+              onChange={e => this.setState({ email: e.target.value })}
+              type="text"
+            />
+            <StyledInput
+              value={this.state.role}
+              onChange={e => this.setState({ role: e.target.value })}
+              type="text"
+            />
+            <StyledInput type="submit" value="submit" />
+          </HiddenFormWrapper>
+        </div>
       </CreateForm>
     );
   }
@@ -77,7 +104,7 @@ const CREATE_MEMBER = gql`
 `;
 
 export default graphql(CREATE_MEMBER, {
-  props: ({ ownProps, mutate }) => ({
+  props: ({ mutate }) => ({
     createMember: (name, email, role, userId) =>
       mutate({
         variables: { name, email, role, userId },

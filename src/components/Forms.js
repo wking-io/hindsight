@@ -13,7 +13,9 @@ export const StyledInput = styled.input`
 `;
 
 export const CreateForm = styled.form`
-  height: ${props => (props.open ? 'auto' : '0')};
-  padding: ${props => (props.open ? '1em 0' : '0')};
+  height: ${props => (props.open ? `${props.expandedHeight}px` : '0')};
   overflow: hidden;
+  transition: height 0.25s cubic-bezier(0.39, 0.01, 0.55, 0.97);
 `;
+
+export const HiddenFormWrapper = styled.div`padding: 1em 0;`;

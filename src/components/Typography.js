@@ -13,5 +13,8 @@ export const BodyText = styled.p`
   font-size: 1em;
   line-height: 1.4;
   color: ${PRIMARY_DARK};
-  margin: 0 0 1.5em 0;
+  margin: ${props => (props.addSpace ? '0 0 1.5em 0' : '0 0 0 0')};
+  text-align: ${props => (props.alignRight ? 'right' : 'left')};
 `;
+
+export const Divider = BodyText.extend`margin: 0 0.625em;`;
