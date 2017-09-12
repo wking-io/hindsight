@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { NavLink, Link } from 'react-router-dom';
-import { SANS_FONT, PRIMARY_DARK, BLUE_DARK, BLUE_GRADIENT, WHITE } from '../lib/constants';
+import { SANS_FONT, PRIMARY_DARK, BLUE_GRADIENT } from '../lib/constants';
 
 export const Button = styled.button`
   color: ${PRIMARY_DARK};

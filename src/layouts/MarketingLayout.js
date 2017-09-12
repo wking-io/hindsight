@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Logo from '../components/Logo';
 import WelcomeLinks from '../components/WelcomeLinks';
 import { CenterInScreen, ContentWrapper, FlexWrapper, FlexItem } from '../components/Layout';
 import { Subheading, BodyText } from '../components/Typography';
 
-const MarketingLayout = () => (
+const MarketingLayout = ({ isUser }) => (
   <CenterInScreen>
     <ContentWrapper>
       <FlexWrapper>
@@ -21,11 +22,15 @@ const MarketingLayout = () => (
             and learn how to build a communication process within your team that will open the door
             to real communication.
           </BodyText>
-          <WelcomeLinks />
+          <WelcomeLinks isUser={isUser} />
         </FlexItem>
       </FlexWrapper>
     </ContentWrapper>
   </CenterInScreen>
 );
+
+MarketingLayout.propTypes = {
+  isUser: PropTypes.string.isRequired,
+};
 
 export default MarketingLayout;

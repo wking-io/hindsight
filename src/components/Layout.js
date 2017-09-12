@@ -9,7 +9,7 @@ export const CenterInScreen = styled.div`
 `;
 export const ContentWrapper = styled.section`
   width: 85vw;
-  margin: 0 auto;
+  margin: ${props => (props.addSpace ? '1em auto' : '0 auto')};
 `;
 
 export const FlexWrapper = styled.div`

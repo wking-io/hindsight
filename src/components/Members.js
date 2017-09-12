@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, gql } from 'react-apollo';
-import { GC_USER_ID, GC_AUTH_TOKEN } from '../lib/constants';
 import ErrorMessage from './ErrorMessage';
 import AddSomething from './AddSomething';
 import CreateMember from './CreateMember';

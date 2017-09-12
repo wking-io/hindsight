@@ -25,7 +25,11 @@ class App extends Component {
     return (
       <div>
         <Switch>
-          <Route exact path="/" component={MarketingLayout} />
+          <Route
+            exact
+            path="/"
+            render={routeProps => <MarketingLayout {...routeProps} isUser={this.state.isUser} />}
+          />
           <Route path="/auth" render={routeProps => <UnauthorizedLayout {...routeProps} />} />
           <Route
             path="/app"

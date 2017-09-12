@@ -10,7 +10,7 @@ import { ContentWrapper } from '../components/Layout';
 const AppLayout = () => (
   <div>
     <AppNav />
-    <ContentWrapper>
+    <ContentWrapper addSpace>
       <Switch>
         <Route exact path="/app" component={Dashboard} />
         <Route path="/app/retros" component={Retros} />
