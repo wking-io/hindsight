@@ -17,4 +17,8 @@ export const BodyText = styled.p`
   text-align: ${props => (props.alignRight ? 'right' : 'left')};
 `;
 
-export const Divider = BodyText.extend`margin: 0 0.625em;`;
+export const Divider = BodyText.extend`
+  margin: 0 0.625em;
+  width: ${props => (props.visible ? '' : '0.5em')};
+  visibility: ${props => (props.visible ? '' : 'hidden')};
+`;

@@ -46,3 +46,13 @@ export const StyledLabel = styled.label`
   color: ${PRIMARY_DARK};
   margin-bottom: 0.5em;
 `;
+
+export const EditableInput = styled.input`
+  font-family: ${SANS_FONT};
+  font-size: 0.875em;
+  border: 1px solid white;
+  border-color: ${PRIMARY_MEDIUM};
+  background-color: white;
+  color: ${PRIMARY_DARK};
+  padding: 0.3em 0.5em 0.25em;
+`;

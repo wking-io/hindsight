@@ -7,7 +7,7 @@ export const CardGroup = styled.ul`
 
 const Card = styled.li`
   list-style-type: none;
-  padding: 1.5em;
+  padding: 1em 1.5em;
   margin-bottom: 0.75em;
   background-color: white;
 `;
