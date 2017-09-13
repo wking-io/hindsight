@@ -9,6 +9,9 @@
 # production
 /build
 
+# GraphCool Goodies
+lib/apollo-client.js
+
 # misc
 .DS_Store
 .env.local
