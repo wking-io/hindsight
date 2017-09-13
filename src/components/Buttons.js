@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { NavLink, Link } from 'react-router-dom';
-import { SANS_FONT, PRIMARY_DARK, BLUE_GRADIENT } from '../lib/constants';
+import {
+  SANS_FONT,
+  PRIMARY_DARK,
+  PRIMARY_MEDIUM,
+  BLUE_GRADIENT,
+  ORANGE_DARK,
+} from '../lib/constants';
 
 export const Button = styled.button`
   color: ${PRIMARY_DARK};
@@ -108,5 +114,15 @@ export const AddButton = styled.button`
 
   &.close > span:first-child {
     transform: translate(-50%, -50%) rotate(45deg);
+  }
+`;
+
+export const MainPath = styled.path`fill: ${PRIMARY_MEDIUM};`;
+
+export const IconSvg = styled.svg`
+  margin-left: 1em;
+
+  :hover ${MainPath} {
+    fill: ${props => (props.type === 'negative' ? ORANGE_DARK : PRIMARY_DARK)};
   }
 `;

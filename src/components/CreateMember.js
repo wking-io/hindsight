@@ -69,18 +69,18 @@ class CreateMember extends Component {
               />
             </InputGroup>
             <InputGroup>
-              <StyledLabel>Full Name</StyledLabel>
+              <StyledLabel>Role</StyledLabel>
               <StyledInput
-                value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
+                value={this.state.role}
+                onChange={e => this.setState({ role: e.target.value })}
                 type="text"
               />
             </InputGroup>
             <InputGroup>
-              <StyledLabel>Full Name</StyledLabel>
+              <StyledLabel>Email Address</StyledLabel>
               <StyledInput
-                value={this.state.role}
-                onChange={e => this.setState({ role: e.target.value })}
+                value={this.state.email}
+                onChange={e => this.setState({ email: e.target.value })}
                 type="text"
               />
             </InputGroup>

@@ -5,8 +5,7 @@ import ErrorMessage from './ErrorMessage';
 import AddSomething from './AddSomething';
 import CreateMember from './CreateMember';
 import Card, { CardGroup } from './Card';
-import { FlexWrapper, FlexItem } from './Layout';
-import { BodyText, Divider } from './Typography';
+import MemberData from './MemberData';
 
 class Members extends Component {
   state = {
@@ -26,16 +25,7 @@ class Members extends Component {
         <CardGroup>
           {allMembers.map(member => (
             <Card key={member.id}>
-              <FlexWrapper>
-                <BodyText>
-                  <strong>{member.name}</strong>
-                </BodyText>
-                <Divider>{'//'}</Divider>
-                <BodyText>{member.role}</BodyText>
-                <FlexItem>
-                  <BodyText alignRight>{member.email}</BodyText>
-                </FlexItem>
-              </FlexWrapper>
+              <MemberData member={member} />
             </Card>
           ))}
         </CardGroup>
