@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { graphql, gql, compose } from 'react-apollo';
+import PropTypes from 'prop-types';
 import Icon from './Icon';
-import { FlexWrapper, FlexItem } from './Layout';
-import { BodyText, Divider } from './Typography';
+import { FlexWrapper } from './Layout';
+import { Divider } from './Typography';
 import MemberValue from './MemberValue';
 import { ICONS } from '../lib/constants';
 import { ALL_MEMBERS } from './Members';
@@ -28,28 +29,78 @@ class MemberData extends Component {
     const id = this.props.member.id;
     this.props.deleteMember(id);
   };
+
+  submitUpdate = () => {
+    const { name, role, email } = this.state;
+    const { id } = this.props.member;
+    this.props.updateMember(name, role, email, id);
+    this.initState = { name, role, email, readOnly: true };
+    this.toggleUpdate();
+  };
+
+  updateValue = (e) => {
+    const { name, value } = e.target;
+    this.setState(() => ({ [name]: value }));
+  };
+
+  cancelUpdate = () => {
+    this.setState(() => this.initState);
+  };
+
   render() {
-    const { member } = this.props;
+    const { name, role, email } = this.state;
     const { readOnly } = this.state;
     return (
-      <FlexWrapper align="center" spread>
-        <MemberValue type="text" value={member.name} readOnly={readOnly} />
+      <FlexWrapper align="center" spread="5">
+        <MemberValue
+          type="text"
+          name="name"
+          value={name}
+          readOnly={readOnly}
+          updateValue={this.updateValue}
+        />
         <Divider visible={readOnly}>{'//'}</Divider>
-        <MemberValue type="text" value={member.role} readOnly={readOnly} />
+        <MemberValue
+          type="text"
+          name="role"
+          value={role}
+          readOnly={readOnly}
+          updateValue={this.updateValue}
+        />
         <Divider visible={readOnly}>{'//'}</Divider>
-        <MemberValue type="text" value={member.email} readOnly={readOnly} />
+        <MemberValue
+          type="text"
+          name="email"
+          value={email}
+          readOnly={readOnly}
+          updateValue={this.updateValue}
+        />
         <div>
-          <Icon icon={readOnly ? ICONS.EDIT : ICONS.SAVE} action={this.toggleUpdate} />
+          <Icon
+            icon={readOnly ? ICONS.EDIT : ICONS.SAVE}
+            action={readOnly ? this.toggleUpdate : this.submitUpdate}
+          />
           <Icon
             type="negative"
             icon={readOnly ? ICONS.DELETE : ICONS.CANCEL}
-            action={this.deleteThisMember}
+            action={readOnly ? this.deleteThisMember : this.cancelUpdate}
           />
         </div>
       </FlexWrapper>
     );
   }
 }
+
+MemberData.propTypes = {
+  member: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    role: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }).isRequired,
+  deleteMember: PropTypes.func.isRequired,
+  updateMember: PropTypes.func.isRequired,
+};
 
 export const DELETE_MEMBER = gql`
   mutation DeleteMember($id: ID!) {
@@ -61,8 +112,8 @@ export const DELETE_MEMBER = gql`
 `;
 
 export const UPDATE_MEMBER = gql`
-  mutation UpdateMember($name: String!, $email: String!, $role: String!, $id: ID!) {
-    updateMember(name: $name, email: $email, role: $role, id: $userId) {
+  mutation UpdateMember($name: String!, $role: String!, $email: String!, $id: ID!) {
+    updateMember(name: $name, role: $role, email: $email, id: $id) {
       id
       name
       role
@@ -85,5 +136,22 @@ export default compose(
         }),
     }),
   }),
-  graphql(UPDATE_MEMBER, { name: 'updateMember' }),
+  graphql(UPDATE_MEMBER, {
+    props: ({ mutate }) => ({
+      updateMember: (name, role, email, id) =>
+        mutate({
+          variables: { name, role, email, id },
+          optimisticResponse: {
+            __typename: 'Mutation',
+            updateMember: {
+              __typename: 'Member',
+              id,
+              name,
+              role,
+              email,
+            },
+          },
+        }),
+    }),
+  }),
 )(MemberData);

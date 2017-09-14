@@ -17,6 +17,10 @@ export const FlexWrapper = styled.div`
   width: 100%;
   align-items: ${props => props.align};
   justify-content: ${props => props.justify};
+
+  > *:nth-child(${props => props.spread}) {
+    flex: 1;
+  }
 `;
 
 export const FlexItem = styled.div`

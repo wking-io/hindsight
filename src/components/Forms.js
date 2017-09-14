@@ -55,4 +55,5 @@ export const EditableInput = styled.input`
   background-color: white;
   color: ${PRIMARY_DARK};
   padding: 0.3em 0.5em 0.25em;
+  flex: 1;
 `;
