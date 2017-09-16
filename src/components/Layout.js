@@ -17,10 +17,6 @@ export const FlexWrapper = styled.div`
   width: 100%;
   align-items: ${props => props.align};
   justify-content: ${props => props.justify};
-
-  > *:nth-child(${props => props.spread}) {
-    flex: 1;
-  }
 `;
 
 export const FlexItem = styled.div`
@@ -35,3 +31,9 @@ export const NavItems = FlexWrapper.extend`
 `;
 
 export const NavWrapper = FlexWrapper.extend`padding: 1em 0;`;
+
+export const PushLastChild = FlexWrapper.extend`
+  > *:nth-last-child(2) {
+    flex: 1;
+  }
+`;

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { graphql, gql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
-import { FlexWrapper } from './Layout';
+import { PushLastChild } from './Layout';
 import { Divider } from './Typography';
 import MemberValue from './MemberValue';
 import { ICONS } from '../lib/constants';
@@ -51,7 +51,7 @@ class MemberData extends Component {
     const { name, role, email } = this.state;
     const { readOnly } = this.state;
     return (
-      <FlexWrapper align="center" spread="5">
+      <PushLastChild align="center" spread="5">
         <MemberValue
           type="text"
           name="name"
@@ -86,7 +86,7 @@ class MemberData extends Component {
             action={readOnly ? this.deleteThisMember : this.cancelUpdate}
           />
         </div>
-      </FlexWrapper>
+      </PushLastChild>
     );
   }
 }

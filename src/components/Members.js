@@ -23,8 +23,8 @@ class Members extends Component {
         <AddSomething createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
         <CreateMember createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
         <CardGroup>
-          {allMembers.map(member => (
-            <Card key={member.id}>
+          {allMembers.map((member, i) => (
+            <Card key={member.id} index={i}>
               <MemberData member={member} />
             </Card>
           ))}
