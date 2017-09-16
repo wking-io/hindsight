@@ -4,7 +4,10 @@
   "private": true,
   "dependencies": {
     "classnames": "^2.2.5",
+    "husky": "^0.14.3",
     "immutability-helper": "^2.3.1",
+    "lint-staged": "^4.2.1",
+    "prettier": "^1.7.0",
     "prop-types": "^15.5.10",
     "query-string": "^5.0.0",
     "react": "^15.6.1",
@@ -21,7 +24,11 @@
     "subscriptions-transport-ws": "^0.8.2",
     "typeface-fira-sans": "0.0.35"
   },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,css}": ["prettier --single-quote --write", "git add"]
+  },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
