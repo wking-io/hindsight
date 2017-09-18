@@ -1,5 +1,5 @@
 import { css } from 'styled-components';
-import { breakpoints } from '../lib/constants';
+import breakpoints from './breakpoints';
 
 // iterate through the sizes and create a media template
 const media = Object.keys(breakpoints).reduce((accumulator, label) => {
@@ -7,7 +7,12 @@ const media = Object.keys(breakpoints).reduce((accumulator, label) => {
   // changing their browsers font-size: https://zellwk.com/blog/media-query-units/
   const emSize = breakpoints[label] / 16;
   const obj = {};
-  obj[label] = (...args) => css`@media (max-width: ${emSize}em) {${css(...args)};}`;
+  obj[label] = (...args) =>
+    css`
+      @media (max-width: ${emSize}em) {
+        ${css(...args)};
+      }
+    `;
   return { ...accumulator, ...obj };
 }, {});
 

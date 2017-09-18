@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import 'typeface-fira-sans';
 import apolloClient from './lib/apollo-client';
-import App from './components/App';
+import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 
@@ -14,6 +14,6 @@ ReactDOM.render(
       <App />
     </ApolloProvider>
   </BrowserRouter>,
-  document.getElementById('root'),
+  document.getElementById('root')
 );
 registerServiceWorker();
