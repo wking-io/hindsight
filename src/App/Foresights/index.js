@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import ErrorMessage from '../shared/ErrorMessage';
 import AddSomething from '../shared/AddSomething';
 import CreateForesight from './CreateForesight';
 import DraggableContainer from './DraggableContainer';
+import { ALL_FORESIGHTS } from '../../lib/queries/foresights';
 
 class Foresights extends Component {
   state = {
-    createNew: false
+    createNew: false,
   };
 
-  toggleCreateNew = () =>
-    this.setState(prevState => ({ createNew: !prevState.createNew }));
+  toggleCreateNew = () => this.setState(prevState => ({ createNew: !prevState.createNew }));
 
   render() {
     const { error, loading, allForesights } = this.props.foresights;
@@ -20,10 +20,7 @@ class Foresights extends Component {
     if (error) return <ErrorMessage message="Error loading forsights." />;
     return (
       <section>
-        <AddSomething
-          createNew={this.state.createNew}
-          toggleCreateNew={this.toggleCreateNew}
-        />
+        <AddSomething createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
         <CreateForesight
           createNew={this.state.createNew}
           toggleCreateNew={this.toggleCreateNew}
@@ -39,18 +36,8 @@ Foresights.propTypes = {
   foresights: PropTypes.shape({
     loading: PropTypes.bool.isRequired,
     error: PropTypes.object,
-    allForesights: PropTypes.array
-  }).isRequired
+    allForesights: PropTypes.array,
+  }).isRequired,
 };
-
-export const ALL_FORESIGHTS = gql`
-  query AllForesights {
-    allForesights(orderBy: order_ASC) {
-      id
-      action
-      status
-    }
-  }
-`;
 
 export default graphql(ALL_FORESIGHTS, { name: 'foresights' })(Foresights);

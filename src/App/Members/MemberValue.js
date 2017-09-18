@@ -21,7 +21,7 @@ MemberValue.propTypes = {
   value: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   readOnly: PropTypes.bool.isRequired,
-  updateValue: PropTypes.func.isRequired
+  updateValue: PropTypes.func.isRequired,
 };
 
 export default MemberValue;

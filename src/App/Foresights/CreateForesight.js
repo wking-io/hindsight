@@ -7,17 +7,17 @@ import {
   HiddenFormWrapper,
   InputGroup,
   StyledLabel,
-  StyledInput
+  StyledInput,
 } from '../shared/Forms';
 import { GC_USER_ID } from '../../utils/graphcool';
-import { ALL_FORESIGHTS } from '../Foresights';
+import { ALL_FORESIGHTS, CREATE_FORESIGHT } from '../../lib/queries/foresights';
 
 class CreateForesight extends Component {
   constructor(props) {
     super(props);
     this.state = {
       action: '',
-      expandedHeight: ''
+      expandedHeight: '',
     };
   }
 
@@ -32,7 +32,7 @@ class CreateForesight extends Component {
 
   emptyState = {
     action: '',
-    expandedHeight: ''
+    expandedHeight: '',
   };
 
   clearForm = () => {
@@ -83,22 +83,8 @@ CreateForesight.propTypes = {
   createNew: PropTypes.bool.isRequired,
   toggleCreateNew: PropTypes.func.isRequired,
   createForesight: PropTypes.func.isRequired,
-  count: PropTypes.number.isRequired
+  count: PropTypes.number.isRequired,
 };
-
-const CREATE_FORESIGHT = gql`
-  mutation CreateForesight($action: String!, $userId: ID!, $order: Int!) {
-    createForesight(action: $action, userId: $userId, order: $order) {
-      id
-      action
-      status
-      order
-      user {
-        id
-      }
-    }
-  }
-`;
 
 export default graphql(CREATE_FORESIGHT, {
   props: ({ mutate }) => ({
@@ -115,9 +101,9 @@ export default graphql(CREATE_FORESIGHT, {
             status: 'ACTIVE',
             user: {
               __typeItemname: 'User',
-              id: userId
-            }
-          }
+              id: userId,
+            },
+          },
         },
         update: (store, { data: { createForesight } }) => {
           // Read the data from our cache for this query.
@@ -126,7 +112,7 @@ export default graphql(CREATE_FORESIGHT, {
           data.allForesights.push(createForesight);
           // Write our data back to the cache.
           store.writeQuery({ query: ALL_FORESIGHTS, data });
-        }
-      })
-  })
+        },
+      }),
+  }),
 })(CreateForesight);

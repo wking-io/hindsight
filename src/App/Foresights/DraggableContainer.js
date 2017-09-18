@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
-import { graphql, gql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import DraggableCard from './DraggableCard';
 import { Wrapper } from '../shared/Layout';
+import { UPDATE_FORESIGHT_ORDER } from '../../lib/queries/foresights';
 
 class DraggableContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      cards: this.props.foresights
+      cards: this.props.foresights,
     };
   }
 
@@ -32,8 +33,8 @@ class DraggableContainer extends Component {
     this.setState(
       update(this.state, {
         cards: {
-          $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]]
-        }
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
+        },
       })
     );
   };
@@ -66,26 +67,17 @@ class DraggableContainer extends Component {
 
 DraggableContainer.propTypes = {
   foresights: PropTypes.arrayOf(PropTypes.object).isRequired,
-  updateForesight: PropTypes.func.isRequired
+  updateForesight: PropTypes.func.isRequired,
 };
-
-const UPDATE_FORESIGHT_ORDER = gql`
-  mutation UpdateForesightOrder($order: Int!, $id: ID!) {
-    updateForesight(order: $order, id: $id) {
-      id
-      order
-    }
-  }
-`;
 
 export default compose(
   graphql(UPDATE_FORESIGHT_ORDER, {
     props: ({ mutate }) => ({
       updateForesight: (order, id) =>
         mutate({
-          variables: { order, id }
-        })
-    })
+          variables: { order, id },
+        }),
+    }),
   }),
   DragDropContext(HTML5Backend)
 )(DraggableContainer);

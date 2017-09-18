@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import storage from 'store';
-import { graphql, gql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import {
   CreateForm,
   HiddenFormWrapper,
   InputGroup,
   StyledLabel,
-  StyledInput
+  StyledInput,
 } from '../shared/Forms';
-import { ALL_MEMBERS } from './index';
 import { GC_USER_ID } from '../../utils/graphcool';
+import { ALL_MEMBERS, CREATE_MEMBER } from '../../lib/queries/members';
 
 class CreateMember extends Component {
   constructor(props) {
@@ -19,7 +19,7 @@ class CreateMember extends Component {
       name: '',
       email: '',
       role: '',
-      expandedHeight: ''
+      expandedHeight: '',
     };
   }
 
@@ -36,7 +36,7 @@ class CreateMember extends Component {
     name: '',
     email: '',
     role: '',
-    expandedHeight: ''
+    expandedHeight: '',
   };
 
   clearForm = () => {
@@ -101,27 +101,8 @@ class CreateMember extends Component {
 CreateMember.propTypes = {
   createNew: PropTypes.bool.isRequired,
   toggleCreateNew: PropTypes.func.isRequired,
-  createMember: PropTypes.func.isRequired
+  createMember: PropTypes.func.isRequired,
 };
-
-const CREATE_MEMBER = gql`
-  mutation CreateMember(
-    $name: String!
-    $email: String!
-    $role: String!
-    $userId: ID!
-  ) {
-    createMember(name: $name, email: $email, role: $role, userId: $userId) {
-      id
-      name
-      role
-      email
-      user {
-        id
-      }
-    }
-  }
-`;
 
 export default graphql(CREATE_MEMBER, {
   props: ({ mutate }) => ({
@@ -138,15 +119,15 @@ export default graphql(CREATE_MEMBER, {
             email,
             user: {
               __typename: 'User',
-              id: userId
-            }
-          }
+              id: userId,
+            },
+          },
         },
         update: (store, { data: { createMember } }) => {
           const data = store.readQuery({ query: ALL_MEMBERS });
           data.allMembers.push(createMember);
           store.writeQuery({ query: ALL_MEMBERS, data });
-        }
-      })
-  })
+        },
+      }),
+  }),
 })(CreateMember);

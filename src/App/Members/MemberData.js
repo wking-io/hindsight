@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { graphql, gql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import PropTypes from 'prop-types';
 import Icon from '../shared/Icon';
 import { PushLastChild } from '../shared/Layout';
 import { Divider } from '../shared/Typography';
 import MemberValue from './MemberValue';
 import ICONS from '../../utils/icons';
-import { ALL_MEMBERS } from './index';
+import { ALL_MEMBERS, UPDATE_MEMBER, DELETE_MEMBER } from '../../lib/queries/members';
 
 class MemberData extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class MemberData extends Component {
     name: this.props.member.name,
     role: this.props.member.role,
     email: this.props.member.email,
-    readOnly: true
+    readOnly: true,
   };
 
   toggleUpdate = () => {
@@ -96,36 +96,11 @@ MemberData.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     role: PropTypes.string.isRequired,
-    email: PropTypes.string.isRequired
+    email: PropTypes.string.isRequired,
   }).isRequired,
   deleteMember: PropTypes.func.isRequired,
-  updateMember: PropTypes.func.isRequired
+  updateMember: PropTypes.func.isRequired,
 };
-
-export const DELETE_MEMBER = gql`
-  mutation DeleteMember($id: ID!) {
-    deleteMember(id: $id) {
-      id
-      name
-    }
-  }
-`;
-
-export const UPDATE_MEMBER = gql`
-  mutation UpdateMember(
-    $name: String!
-    $role: String!
-    $email: String!
-    $id: ID!
-  ) {
-    updateMember(name: $name, role: $role, email: $email, id: $id) {
-      id
-      name
-      role
-      email
-    }
-  }
-`;
 
 export default compose(
   graphql(DELETE_MEMBER, {
@@ -135,13 +110,11 @@ export default compose(
           variables: { id },
           update: (store, { data: { deleteMember } }) => {
             const data = store.readQuery({ query: ALL_MEMBERS });
-            data.allMembers = data.allMembers.filter(
-              member => member.id !== deleteMember.id
-            );
+            data.allMembers = data.allMembers.filter(member => member.id !== deleteMember.id);
             store.writeQuery({ query: ALL_MEMBERS, data });
-          }
-        })
-    })
+          },
+        }),
+    }),
   }),
   graphql(UPDATE_MEMBER, {
     props: ({ mutate }) => ({
@@ -155,10 +128,10 @@ export default compose(
               id,
               name,
               role,
-              email
-            }
-          }
-        })
-    })
+              email,
+            },
+          },
+        }),
+    }),
   })
 )(MemberData);
