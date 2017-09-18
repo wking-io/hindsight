@@ -73,13 +73,13 @@ class DraggableCard extends Component {
     return connectDragSource(
       connectDropTarget(
         <div
-          ref={node => {
+          ref={(node) => {
             this.node = node;
           }}
         >
           <Card style={{ opacity }}>{text}</Card>
-        </div>
-      )
+        </div>,
+      ),
     );
   }
 }
@@ -98,5 +98,5 @@ export default compose(
   DragSource(ItemTypes.CARD, cardSource, (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
-  }))
+  })),
 )(DraggableCard);

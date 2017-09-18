@@ -28,7 +28,7 @@ class CreateMember extends Component {
     this.setExpandedHeight(expandedHeight);
   }
 
-  setExpandedHeight = height => {
+  setExpandedHeight = (height) => {
     this.setState(() => ({ expandedHeight: height }));
   };
 
@@ -43,7 +43,7 @@ class CreateMember extends Component {
     this.setState(() => this.emptyState);
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const userId = storage.get(GC_USER_ID);
     const { name, email, role } = this.state;
@@ -61,7 +61,7 @@ class CreateMember extends Component {
         onSubmit={this.handleSubmit}
       >
         <div
-          ref={hiddenWrapper => {
+          ref={(hiddenWrapper) => {
             this.hiddenWrapper = hiddenWrapper;
           }}
         >

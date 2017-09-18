@@ -26,7 +26,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,json,css}": [
-      "prettier --single-quote --print-width 100 --trailing-comma es5 --write",
+      "prettier-eslint --single-quote --print-width 100 --trailing-comma es5 --write",
       "git add"
     ]
   },
@@ -45,6 +45,7 @@
     "eslint-plugin-jsx-a11y": "^5.1.1",
     "eslint-plugin-react": "^7.3.0",
     "prettier-eslint": "^7.1.0",
+    "prettier-eslint-cli": "^4.3.2",
     "react-app-rewired": "^1.2.5"
   }
 }

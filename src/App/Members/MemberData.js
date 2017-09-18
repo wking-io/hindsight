@@ -38,7 +38,7 @@ class MemberData extends Component {
     this.toggleUpdate();
   };
 
-  updateValue = e => {
+  updateValue = (e) => {
     const { name, value } = e.target;
     this.setState(() => ({ [name]: value }));
   };
@@ -133,5 +133,5 @@ export default compose(
           },
         }),
     }),
-  })
+  }),
 )(MemberData);
