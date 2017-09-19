@@ -5,7 +5,7 @@ import { graphql } from 'react-apollo';
 import ErrorMessage from '../shared/ErrorMessage';
 import AddSomething from '../shared/AddSomething';
 import CreateForesight from './CreateForesight';
-import DraggableContainer from './DraggableContainer';
+import ForesightsContainer from './ForesightsContainer';
 import { ALL_FORESIGHTS } from '../../lib/queries/foresights';
 
 class Foresights extends Component {
@@ -57,7 +57,7 @@ class Foresights extends Component {
           updateField={this.updateField}
           count={allForesights.length - 1}
         />
-        <DraggableContainer foresights={allForesights} />
+        <ForesightsContainer foresights={allForesights} />
       </section>
     );
   }

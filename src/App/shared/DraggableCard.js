@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { DragSource, DropTarget } from 'react-dnd';
 import { compose } from 'react-apollo';
-import Card from '../shared/Card';
 import ItemTypes from '../../utils/itemTypes';
 
 const cardSource = {
@@ -68,8 +67,7 @@ const cardTarget = {
 
 class DraggableCard extends Component {
   render() {
-    const { text, isDragging, connectDragSource, connectDropTarget } = this.props;
-    const opacity = isDragging ? 0 : 1;
+    const { isDragging, connectDragSource, connectDropTarget, children } = this.props;
     return connectDragSource(
       connectDropTarget(
         <div
@@ -77,7 +75,7 @@ class DraggableCard extends Component {
             this.node = node;
           }}
         >
-          <Card style={{ opacity }}>{text}</Card>
+          {children(isDragging)}
         </div>,
       ),
     );
@@ -88,7 +86,7 @@ DraggableCard.propTypes = {
   connectDragSource: PropTypes.func.isRequired,
   connectDropTarget: PropTypes.func.isRequired,
   isDragging: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default compose(
