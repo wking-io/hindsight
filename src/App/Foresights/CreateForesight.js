@@ -1,96 +1,38 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import storage from 'store';
-import { graphql, gql } from 'react-apollo';
-import {
-  CreateForm,
-  HiddenFormWrapper,
-  InputGroup,
-  StyledLabel,
-  StyledInput,
-} from '../shared/Forms';
-import { GC_USER_ID } from '../../utils/graphcool';
+import { graphql } from 'react-apollo';
+import CreateForm from '../shared/CreateForm';
+import FormField from '../shared/FormField';
 import { ALL_FORESIGHTS, CREATE_FORESIGHT } from '../../lib/queries/foresights';
 
-class CreateForesight extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      action: '',
-      expandedHeight: '',
-    };
-  }
-
-  componentDidMount() {
-    const expandedHeight = this.hiddenWrapper.offsetHeight;
-    this.setExpandedHeight(expandedHeight);
-  }
-
-  setExpandedHeight = height => {
-    this.setState(() => ({ expandedHeight: height }));
-  };
-
-  emptyState = {
-    action: '',
-    expandedHeight: '',
-  };
-
-  clearForm = () => {
-    this.setState(() => this.emptyState);
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-    const { createForesight, count, toggleCreateNew } = this.props;
-    const { action } = this.state;
-    const userId = storage.get(GC_USER_ID);
-    createForesight(action, userId, count);
-    this.clearForm();
-    toggleCreateNew();
-  };
-
-  render() {
-    const { createNew } = this.props;
-    return (
-      <CreateForm
-        open={createNew}
-        expandedHeight={this.state.expandedHeight}
-        onSubmit={this.handleSubmit}
-      >
-        <div
-          ref={hiddenWrapper => {
-            this.hiddenWrapper = hiddenWrapper;
-          }}
-        >
-          <HiddenFormWrapper>
-            <InputGroup>
-              <StyledLabel>Action</StyledLabel>
-              <StyledInput
-                value={this.state.action}
-                onChange={e => this.setState({ action: e.target.value })}
-                type="text"
-              />
-            </InputGroup>
-            <StyledInput type="submit" value="Create Foresight" />
-          </HiddenFormWrapper>
-        </div>
-      </CreateForm>
-    );
-  }
-}
+const CreateForesight = ({ updateField, createForesight, fields, count, ...props }) => (
+  <CreateForm create={createForesight} fields={fields} staticFields={[count]} {...props}>
+    {fieldData =>
+      fieldData.map(key => (
+        <FormField
+          name={key}
+          label={fields[key].label}
+          value={fields[key].value}
+          type={fields[key].type}
+          updateField={updateField}
+          key={key}
+        />
+      ))}
+  </CreateForm>
+);
 
 CreateForesight.propTypes = {
-  createNew: PropTypes.bool.isRequired,
-  toggleCreateNew: PropTypes.func.isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   createForesight: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired,
   count: PropTypes.number.isRequired,
 };
 
 export default graphql(CREATE_FORESIGHT, {
   props: ({ mutate }) => ({
-    createForesight: (action, userId, order) =>
+    createForesight: (action, order, userId) =>
       mutate({
-        variables: { action, userId, order },
+        variables: { action, order, userId },
         optimisticResponse: {
           __typename: 'Mutation',
           createForesight: {
@@ -100,7 +42,7 @@ export default graphql(CREATE_FORESIGHT, {
             order,
             status: 'ACTIVE',
             user: {
-              __typeItemname: 'User',
+              __typename: 'User',
               id: userId,
             },
           },
