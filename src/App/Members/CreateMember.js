@@ -16,76 +16,58 @@ class CreateMember extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      role: '',
-      expandedHeight: '',
+      createFormHeight: '',
     };
   }
 
   componentDidMount() {
-    const expandedHeight = this.hiddenWrapper.offsetHeight;
-    this.setExpandedHeight(expandedHeight);
+    const formHeight = this.formWrapper.offsetHeight;
+    this.setFormHeight(formHeight);
   }
 
-  setExpandedHeight = (height) => {
-    this.setState(() => ({ expandedHeight: height }));
-  };
-
-  emptyState = {
-    name: '',
-    email: '',
-    role: '',
-    expandedHeight: '',
-  };
-
-  clearForm = () => {
-    this.setState(() => this.emptyState);
+  setFormHeight = (height) => {
+    this.setState(() => ({ createFormHeight: height }));
   };
 
   handleSubmit = (e) => {
     e.preventDefault();
     const userId = storage.get(GC_USER_ID);
-    const { name, email, role } = this.state;
-    this.props.createMember(name, email, role, userId);
-    this.clearForm();
-    this.props.toggleCreateNew();
+    const { fields, createMember, clearForm, toggleCreateIsOpen } = this.props;
+    createMember(fields.name, fields.email, fields.role, userId);
+    clearForm();
+    toggleCreateIsOpen();
   };
 
   render() {
-    const { createNew } = this.props;
+    const { createIsOpen, fields, updateField } = this.props;
     return (
       <CreateForm
-        open={createNew}
-        expandedHeight={this.state.expandedHeight}
+        open={createIsOpen}
+        expandedHeight={this.state.createFormHeight}
         onSubmit={this.handleSubmit}
       >
         <div
-          ref={(hiddenWrapper) => {
-            this.hiddenWrapper = hiddenWrapper;
+          ref={(el) => {
+            this.formWrapper = el;
           }}
         >
           <HiddenFormWrapper>
             <InputGroup>
               <StyledLabel>Full Name</StyledLabel>
               <StyledInput
-                value={this.state.name}
+                value={fields.name}
                 onChange={e => this.setState({ name: e.target.value })}
                 type="text"
               />
             </InputGroup>
             <InputGroup>
               <StyledLabel>Role</StyledLabel>
-              <StyledInput
-                value={this.state.role}
-                onChange={e => this.setState({ role: e.target.value })}
-                type="text"
-              />
+              <StyledInput value={fields.role} onChange={updateField} type="text" />
             </InputGroup>
             <InputGroup>
               <StyledLabel>Email Address</StyledLabel>
               <StyledInput
-                value={this.state.email}
+                value={fields.email}
                 onChange={e => this.setState({ email: e.target.value })}
                 type="text"
               />
@@ -99,9 +81,12 @@ class CreateMember extends Component {
 }
 
 CreateMember.propTypes = {
-  createNew: PropTypes.bool.isRequired,
-  toggleCreateNew: PropTypes.func.isRequired,
+  clearForm: PropTypes.func.isRequired,
+  fields: PropTypes.objectOf(PropTypes.string).isRequired,
+  createIsOpen: PropTypes.bool.isRequired,
+  toggleCreateIsOpen: PropTypes.func.isRequired,
   createMember: PropTypes.func.isRequired,
+  updateField: PropTypes.func.isRequired,
 };
 
 export default graphql(CREATE_MEMBER, {

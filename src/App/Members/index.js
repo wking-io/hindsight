@@ -9,20 +9,48 @@ import MemberData from './MemberData';
 import { ALL_MEMBERS } from '../../lib/queries/members';
 
 class Members extends Component {
-  state = {
-    createNew: false,
+  constructor(props) {
+    super(props);
+    this.state = this.emptyState;
+  }
+
+  emptyState = {
+    createIsOpen: false,
+    fields: {
+      name: '',
+      email: '',
+      role: '',
+    },
   };
 
-  toggleCreateNew = () => this.setState(prevState => ({ createNew: !prevState.createNew }));
+  clearForm = () => {
+    this.setState(() => this.emptyState);
+  };
+
+  toggleCreateIsOpen = () => {
+    this.setState(prevState => ({ createIsOpen: !prevState.createIsOpen }));
+  };
+
+  updateField = (e) => {
+    const { name, value } = e.target;
+    this.setState(() => ({ fields: { [name]: value } }));
+  };
 
   render() {
     const { error, loading, allMembers } = this.props.data;
+    const { createIsOpen, fields } = this.state;
     if (loading) return <div>loading...</div>;
     if (error) return <ErrorMessage message="Error loading members." />;
     return (
       <section>
-        <AddSomething createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
-        <CreateMember createNew={this.state.createNew} toggleCreateNew={this.toggleCreateNew} />
+        <AddSomething createIsOpen={createIsOpen} toggleCreateIsOpen={this.toggleCreateIsOpen} />
+        <CreateMember
+          createIsOpen={createIsOpen}
+          toggleCreateIsOpen={this.toggleCreateIsOpen}
+          clearForm={this.clearForm}
+          fields={fields}
+          updateField={this.updateField}
+        />
         <CardGroup>
           {allMembers.map((member, i) => (
             <Card key={member.id} index={i}>

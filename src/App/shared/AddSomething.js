@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import { AddButton } from './Buttons';
 import { FlexWrapper } from './Layout';
 
-const AddSomething = ({ createNew, toggleCreateNew }) => (
+const AddSomething = ({ createIsOpen, toggleCreateIsOpen }) => (
   <FlexWrapper justify="flex-end">
     <AddButton
-      close={createNew}
-      onClick={() => toggleCreateNew()}
-      className={createNew && 'close'}
+      close={createIsOpen}
+      onClick={() => toggleCreateIsOpen()}
+      className={createIsOpen && 'close'}
     >
       <span />
       <span />
@@ -17,8 +17,8 @@ const AddSomething = ({ createNew, toggleCreateNew }) => (
 );
 
 AddSomething.propTypes = {
-  createNew: PropTypes.bool.isRequired,
-  toggleCreateNew: PropTypes.func.isRequired
+  createIsOpen: PropTypes.bool.isRequired,
+  toggleCreateIsOpen: PropTypes.func.isRequired,
 };
 
 export default AddSomething;

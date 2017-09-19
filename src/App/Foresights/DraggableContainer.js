@@ -35,7 +35,7 @@ class DraggableContainer extends Component {
         cards: {
           $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
         },
-      })
+      }),
     );
   };
 
@@ -79,5 +79,5 @@ export default compose(
         }),
     }),
   }),
-  DragDropContext(HTML5Backend)
+  DragDropContext(HTML5Backend),
 )(DraggableContainer);
