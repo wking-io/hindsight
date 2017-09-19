@@ -2,13 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import storage from 'store';
 import { graphql } from 'react-apollo';
-import {
-  CreateForm,
-  HiddenFormWrapper,
-  InputGroup,
-  StyledLabel,
-  StyledInput,
-} from '../shared/Forms';
+import { CreateForm, HiddenFormWrapper, StyledInput } from '../shared/Forms';
+import FormField from '../shared/FormField';
 import { GC_USER_ID } from '../../utils/graphcool';
 import { ALL_MEMBERS, CREATE_MEMBER } from '../../lib/queries/members';
 
@@ -33,13 +28,14 @@ class CreateMember extends Component {
     e.preventDefault();
     const userId = storage.get(GC_USER_ID);
     const { fields, createMember, clearForm, toggleCreateIsOpen } = this.props;
-    createMember(fields.name, fields.email, fields.role, userId);
+    createMember(fields.name.value, fields.email.value, fields.role.value, userId);
     clearForm();
     toggleCreateIsOpen();
   };
 
   render() {
     const { createIsOpen, fields, updateField } = this.props;
+    const fieldData = Object.keys(fields);
     return (
       <CreateForm
         open={createIsOpen}
@@ -52,26 +48,16 @@ class CreateMember extends Component {
           }}
         >
           <HiddenFormWrapper>
-            <InputGroup>
-              <StyledLabel>Full Name</StyledLabel>
-              <StyledInput
-                value={fields.name}
-                onChange={e => this.setState({ name: e.target.value })}
-                type="text"
+            {fieldData.map(key => (
+              <FormField
+                name={key}
+                label={fields[key].label}
+                value={fields[key].value}
+                type={fields[key].type}
+                updateField={updateField}
+                key={key}
               />
-            </InputGroup>
-            <InputGroup>
-              <StyledLabel>Role</StyledLabel>
-              <StyledInput value={fields.role} onChange={updateField} type="text" />
-            </InputGroup>
-            <InputGroup>
-              <StyledLabel>Email Address</StyledLabel>
-              <StyledInput
-                value={fields.email}
-                onChange={e => this.setState({ email: e.target.value })}
-                type="text"
-              />
-            </InputGroup>
+            ))}
             <StyledInput type="submit" value="Create Member" />
           </HiddenFormWrapper>
         </div>
@@ -82,7 +68,7 @@ class CreateMember extends Component {
 
 CreateMember.propTypes = {
   clearForm: PropTypes.func.isRequired,
-  fields: PropTypes.objectOf(PropTypes.string).isRequired,
+  fields: PropTypes.objectOf(PropTypes.object).isRequired,
   createIsOpen: PropTypes.bool.isRequired,
   toggleCreateIsOpen: PropTypes.func.isRequired,
   createMember: PropTypes.func.isRequired,
@@ -98,7 +84,7 @@ export default graphql(CREATE_MEMBER, {
           __typename: 'Mutation',
           createMember: {
             __typename: 'Member',
-            id: -1,
+            id: 'abc123',
             name,
             role,
             email,

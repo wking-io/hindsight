@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { graphql } from 'react-apollo';
+import update from 'immutability-helper';
 import ErrorMessage from '../shared/ErrorMessage';
 import AddSomething from '../shared/AddSomething';
 import CreateMember from './CreateMember';
@@ -17,9 +18,21 @@ class Members extends Component {
   emptyState = {
     createIsOpen: false,
     fields: {
-      name: '',
-      email: '',
-      role: '',
+      name: {
+        label: 'Full Name',
+        value: '',
+        type: 'text',
+      },
+      email: {
+        label: 'Email Address',
+        value: '',
+        type: 'email',
+      },
+      role: {
+        label: 'Role',
+        value: '',
+        type: 'text',
+      },
     },
   };
 
@@ -33,7 +46,10 @@ class Members extends Component {
 
   updateField = (e) => {
     const { name, value } = e.target;
-    this.setState(() => ({ fields: { [name]: value } }));
+    const newState = update(this.state, {
+      fields: { [name]: { $merge: { value } } },
+    });
+    this.setState(() => newState);
   };
 
   render() {

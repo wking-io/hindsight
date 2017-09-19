@@ -18,12 +18,13 @@ const Icon = ({ icon, type, action }) => (
 
 Icon.propTypes = {
   icon: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  action: PropTypes.string
+  type: PropTypes.string,
+  action: PropTypes.func,
 };
 
 Icon.defaultProps = {
-  action: ''
+  type: '',
+  action: '',
 };
 
 export default Icon;
