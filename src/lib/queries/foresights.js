@@ -11,8 +11,8 @@ export const ALL_FORESIGHTS = gql`
 `;
 
 export const CREATE_FORESIGHT = gql`
-  mutation CreateForesight($action: String!, $userId: ID!, $order: Int!) {
-    createForesight(action: $action, userId: $userId, order: $order) {
+  mutation CreateForesight($action: String!, $order: Int!, $userId: ID!) {
+    createForesight(action: $action, order: $order, userId: $userId) {
       id
       action
       status

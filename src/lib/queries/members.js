@@ -2,7 +2,7 @@ import { gql } from 'react-apollo';
 
 export const ALL_MEMBERS = gql`
   query AllMembers {
-    allMembers {
+    allMembers(orderBy: order_ASC) {
       id
       name
       role
@@ -12,12 +12,19 @@ export const ALL_MEMBERS = gql`
 `;
 
 export const CREATE_MEMBER = gql`
-  mutation CreateMember($name: String!, $email: String!, $role: String!, $userId: ID!) {
-    createMember(name: $name, email: $email, role: $role, userId: $userId) {
+  mutation CreateMember(
+    $name: String!
+    $role: String!
+    $email: String!
+    $order: Int!
+    $userId: ID!
+  ) {
+    createMember(name: $name, role: $role, email: $email, order: $order, userId: $userId) {
       id
       name
       role
       email
+      order
       user {
         id
       }
@@ -41,6 +48,15 @@ export const UPDATE_MEMBER = gql`
       name
       role
       email
+    }
+  }
+`;
+
+export const UPDATE_MEMBER_ORDER = gql`
+  mutation UpdateMemberOrder($order: Int!, $id: ID!) {
+    updateMember(order: $order, id: $id) {
+      id
+      order
     }
   }
 `;

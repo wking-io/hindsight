@@ -5,8 +5,7 @@ import update from 'immutability-helper';
 import ErrorMessage from '../shared/ErrorMessage';
 import AddSomething from '../shared/AddSomething';
 import CreateMember from './CreateMember';
-import Card, { CardGroup } from '../shared/Card';
-import MemberData from './MemberData';
+import MembersContainer from './MembersContainer';
 import { ALL_MEMBERS } from '../../lib/queries/members';
 
 class Members extends Component {
@@ -23,15 +22,15 @@ class Members extends Component {
         value: '',
         type: 'text',
       },
-      email: {
-        label: 'Email Address',
-        value: '',
-        type: 'email',
-      },
       role: {
         label: 'Role',
         value: '',
         type: 'text',
+      },
+      email: {
+        label: 'Email Address',
+        value: '',
+        type: 'email',
       },
     },
   };
@@ -65,15 +64,10 @@ class Members extends Component {
           toggleCreateIsOpen={this.toggleCreateIsOpen}
           clearForm={this.clearForm}
           fields={fields}
+          staticFields={{ order: allMembers.length - 1 }}
           updateField={this.updateField}
         />
-        <CardGroup>
-          {allMembers.map((member, i) => (
-            <Card key={member.id} index={i}>
-              <MemberData member={member} />
-            </Card>
-          ))}
-        </CardGroup>
+        <MembersContainer members={allMembers} />
       </section>
     );
   }

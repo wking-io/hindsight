@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import update from 'immutability-helper';
 import storage from 'store';
 import Drawer from './Drawer';
 import { StyledForm, StyledInput } from '../shared/Forms';
@@ -18,8 +19,11 @@ const CreateForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
     const userId = storage.get(GC_USER_ID);
-    const fieldValues = fieldData.map(key => fields[key].value);
-    create(...fieldValues, ...staticFields, userId);
+    const fieldValues = fieldData.reduce((acc, key) => {
+      const newObj = update(acc, { $merge: { [key]: fields[key].value } });
+      return newObj;
+    }, {});
+    create({ ...fieldValues, ...staticFields, userId });
     clearForm();
     toggleCreateIsOpen();
   };
@@ -37,7 +41,7 @@ CreateForm.propTypes = {
   children: PropTypes.func.isRequired,
   clearForm: PropTypes.func.isRequired,
   fields: PropTypes.objectOf(PropTypes.object).isRequired,
-  staticFields: PropTypes.arrayOf(PropTypes.any),
+  staticFields: PropTypes.objectOf(PropTypes.any),
   createIsOpen: PropTypes.bool.isRequired,
   toggleCreateIsOpen: PropTypes.func.isRequired,
   create: PropTypes.func.isRequired,

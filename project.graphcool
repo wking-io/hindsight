@@ -1,5 +1,5 @@
 # project: cj70whc7z00qu0177u9d86wyf
-# version: 37
+# version: 39
 
 type File implements Node {
   contentType: String!
@@ -18,7 +18,7 @@ type Foresight implements Node {
   id: ID! @isUnique
   order: Int
   retro: Retro @relation(name: "RetroActionItems")
-  status: STATUS
+  status: STATUS! @defaultValue(value: ACTIVE)
   updatedAt: DateTime!
   user: User @relation(name: "ForesightOnUser")
 }
@@ -42,6 +42,7 @@ type Member implements Node {
   hindsights: [Hindsight!]! @relation(name: "MemberHindsights")
   id: ID! @isUnique
   name: String!
+  order: Int
   role: String!
   supports: [Support!]! @relation(name: "MemberSupports")
   updatedAt: DateTime!

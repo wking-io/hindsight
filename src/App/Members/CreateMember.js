@@ -29,9 +29,9 @@ CreateMember.propTypes = {
 
 export default graphql(CREATE_MEMBER, {
   props: ({ mutate }) => ({
-    createMember: (name, email, role, userId) =>
+    createMember: ({ name, role, email, order, userId }) =>
       mutate({
-        variables: { name, email, role, userId },
+        variables: { name, email, role, order, userId },
         optimisticResponse: {
           __typename: 'Mutation',
           createMember: {
@@ -40,6 +40,7 @@ export default graphql(CREATE_MEMBER, {
             name,
             role,
             email,
+            order,
             user: {
               __typename: 'User',
               id: userId,
